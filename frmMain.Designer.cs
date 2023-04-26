@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             pnlMain = new Panel();
+            btnClearLog = new Button();
             nudFileNameWordCount = new NumericUpDown();
             lblFileNameWordCount = new Label();
             lblLog = new Label();
@@ -42,7 +43,7 @@
             btnBrowse = new Button();
             btnGenerate = new Button();
             lblPath = new Label();
-            txtPath = new TextBox();
+            txtFilePath = new TextBox();
             lblFileSizeMin = new Label();
             lblFileCount = new Label();
             folderBrowserDialog = new FolderBrowserDialog();
@@ -51,7 +52,6 @@
             toolstrip_File_Exit = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             toolstrip_Help_About = new ToolStripMenuItem();
-            btnClearLog = new Button();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudFileNameWordCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFileSizeMax).BeginInit();
@@ -77,13 +77,23 @@
             pnlMain.Controls.Add(btnBrowse);
             pnlMain.Controls.Add(btnGenerate);
             pnlMain.Controls.Add(lblPath);
-            pnlMain.Controls.Add(txtPath);
+            pnlMain.Controls.Add(txtFilePath);
             pnlMain.Controls.Add(lblFileSizeMin);
             pnlMain.Controls.Add(lblFileCount);
             pnlMain.Location = new Point(12, 27);
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(776, 411);
             pnlMain.TabIndex = 0;
+            // 
+            // btnClearLog
+            // 
+            btnClearLog.Location = new Point(14, 383);
+            btnClearLog.Name = "btnClearLog";
+            btnClearLog.Size = new Size(75, 23);
+            btnClearLog.TabIndex = 20;
+            btnClearLog.Text = "Clear";
+            btnClearLog.UseVisualStyleBackColor = true;
+            btnClearLog.Click += btnClearLog_Click;
             // 
             // nudFileNameWordCount
             // 
@@ -209,12 +219,12 @@
             lblPath.TabIndex = 5;
             lblPath.Text = "Path:";
             // 
-            // txtPath
+            // txtFilePath
             // 
-            txtPath.Location = new Point(58, 106);
-            txtPath.Name = "txtPath";
-            txtPath.Size = new Size(356, 23);
-            txtPath.TabIndex = 4;
+            txtFilePath.Location = new Point(58, 106);
+            txtFilePath.Name = "txtFilePath";
+            txtFilePath.Size = new Size(356, 23);
+            txtFilePath.TabIndex = 4;
             // 
             // lblFileSizeMin
             // 
@@ -252,7 +262,7 @@
             // toolstrip_File_Exit
             // 
             toolstrip_File_Exit.Name = "toolstrip_File_Exit";
-            toolstrip_File_Exit.Size = new Size(93, 22);
+            toolstrip_File_Exit.Size = new Size(180, 22);
             toolstrip_File_Exit.Text = "E&xit";
             toolstrip_File_Exit.Click += toolstrip_File_Exit_Click;
             // 
@@ -270,16 +280,6 @@
             toolstrip_Help_About.Text = "&About...";
             toolstrip_Help_About.Click += toolstrip_Help_About_Click;
             // 
-            // btnClearLog
-            // 
-            btnClearLog.Location = new Point(14, 383);
-            btnClearLog.Name = "btnClearLog";
-            btnClearLog.Size = new Size(75, 23);
-            btnClearLog.TabIndex = 20;
-            btnClearLog.Text = "Clear";
-            btnClearLog.UseVisualStyleBackColor = true;
-            btnClearLog.Click += btnClearLog_Click;
-            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -288,7 +288,9 @@
             Controls.Add(pnlMain);
             Controls.Add(menuStrip);
             MainMenuStrip = menuStrip;
+            MaximizeBox = false;
             Name = "frmMain";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Test File Creator";
             pnlMain.ResumeLayout(false);
             pnlMain.PerformLayout();
@@ -307,7 +309,7 @@
         private Panel pnlMain;
         private Button btnGenerate;
         private Label lblPath;
-        private TextBox txtPath;
+        private TextBox txtFilePath;
         private Label lblFileSizeMin;
         private Label lblFileCount;
         private FolderBrowserDialog folderBrowserDialog;

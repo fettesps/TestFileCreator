@@ -10,19 +10,26 @@ namespace Test_File_Creator
         {
             InitializeComponent();
 
+            // Defaults
             cboFileSizeMin.SelectedIndex = 0;
             cboFileSizeMax.SelectedIndex = 0;
+            txtFilePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-            txtPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            // Load Settings
+            nudFileCount.Value = (int)Properties.Settings.Default["FileCount"];
+            nudFileSizeMin.Value = (long)Properties.Settings.Default["FileSizeMin"];
+            nudFileSizeMax.Value = (long)Properties.Settings.Default["FileSizeMax"];
+            nudFileNameWordCount.Value = (int)Properties.Settings.Default["FilenameWordCount"];
+            txtFilePath.Text = Properties.Settings.Default["FilePath"].ToString() != String.Empty ? Properties.Settings.Default["FilePath"].ToString() : txtFilePath.Text;
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog.InitialDirectory = txtPath.Text;
+            folderBrowserDialog.InitialDirectory = txtFilePath.Text;
             DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
             if (drFolder == DialogResult.OK)
             {
-                txtPath.Text = folderBrowserDialog.SelectedPath;
+                txtFilePath.Text = folderBrowserDialog.SelectedPath;
             }
         }
 
@@ -45,7 +52,7 @@ namespace Test_File_Creator
                 sbFileName.Append(".txt");
                 strFileName = sbFileName.ToString();
 
-                string strPath = txtPath.Text + "\\" + strFileName;
+                string strPath = txtFilePath.Text + "\\" + strFileName;
 
                 if (!File.Exists(strPath))
                 {
@@ -80,7 +87,7 @@ namespace Test_File_Creator
         {
             int intFilesCreated = 0;
 
-            txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtPath.Text + Environment.NewLine;
+            txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtFilePath.Text + Environment.NewLine;
             for (int i = 0; i < nudFileCount.Value; i++)
             {
                 // Todo: Breakout filename generation, content creation, and file creation into separate methods
@@ -91,6 +98,13 @@ namespace Test_File_Creator
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default["FileCount"] = (int)nudFileCount.Value;
+            Properties.Settings.Default["FileSizeMin"] = (long)nudFileSizeMin.Value;
+            Properties.Settings.Default["FileSizeMax"] = (long)nudFileSizeMax.Value;
+            Properties.Settings.Default["FilenameWordCount"] = (int)nudFileNameWordCount.Value;
+            Properties.Settings.Default["FilePath"] = txtFilePath.Text;
+            Properties.Settings.Default.Save();
+
             Application.Exit();
         }
 
