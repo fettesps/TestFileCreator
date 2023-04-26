@@ -6,6 +6,8 @@ namespace Test_File_Creator
 {
     public partial class frmMain : Form
     {
+        #region Initialization
+
         public frmMain()
         {
             InitializeComponent();
@@ -23,15 +25,9 @@ namespace Test_File_Creator
             txtFilePath.Text = Properties.Settings.Default["FilePath"].ToString() != String.Empty ? Properties.Settings.Default["FilePath"].ToString() : txtFilePath.Text;
         }
 
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            folderBrowserDialog.InitialDirectory = txtFilePath.Text;
-            DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
-            if (drFolder == DialogResult.OK)
-            {
-                txtFilePath.Text = folderBrowserDialog.SelectedPath;
-            }
-        }
+        #endregion
+
+        #region Methods
 
         private void CreateFiles(ref int intFilesCreated)
         {
@@ -83,16 +79,37 @@ namespace Test_File_Creator
             }
         }
 
+        #endregion
+
+        #region Form Events
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog.InitialDirectory = txtFilePath.Text;
+            DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
+            if (drFolder == DialogResult.OK)
+            {
+                txtFilePath.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             int intFilesCreated = 0;
+            progressBar.Minimum = 0;
+            progressBar.Maximum = (int)nudFileCount.Value;
 
             txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtFilePath.Text + Environment.NewLine;
             for (int i = 0; i < nudFileCount.Value; i++)
             {
                 // Todo: Breakout filename generation, content creation, and file creation into separate methods
                 CreateFiles(ref intFilesCreated);
+
+                Application.DoEvents();
+                progressBar.Value = i;
             }
+            progressBar.Value = (int)nudFileCount.Value;
+
             txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
         }
 
@@ -117,6 +134,9 @@ namespace Test_File_Creator
         private void btnClearLog_Click(object sender, EventArgs e)
         {
             txtLog.Text = String.Empty;
+            progressBar.Value = 0;
         }
+
+        #endregion
     }
 }

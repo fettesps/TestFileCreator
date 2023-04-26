@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             pnlMain = new Panel();
+            progressBar = new ProgressBar();
             btnClearLog = new Button();
             nudFileNameWordCount = new NumericUpDown();
             lblFileNameWordCount = new Label();
@@ -63,6 +64,7 @@
             // pnlMain
             // 
             pnlMain.BorderStyle = BorderStyle.FixedSingle;
+            pnlMain.Controls.Add(progressBar);
             pnlMain.Controls.Add(btnClearLog);
             pnlMain.Controls.Add(nudFileNameWordCount);
             pnlMain.Controls.Add(lblFileNameWordCount);
@@ -84,6 +86,13 @@
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(776, 411);
             pnlMain.TabIndex = 0;
+            // 
+            // progressBar
+            // 
+            progressBar.Location = new Point(93, 383);
+            progressBar.Name = "progressBar";
+            progressBar.Size = new Size(587, 23);
+            progressBar.TabIndex = 21;
             // 
             // btnClearLog
             // 
@@ -128,6 +137,7 @@
             txtLog.Location = new Point(14, 164);
             txtLog.Multiline = true;
             txtLog.Name = "txtLog";
+            txtLog.ReadOnly = true;
             txtLog.ScrollBars = ScrollBars.Vertical;
             txtLog.Size = new Size(747, 213);
             txtLog.TabIndex = 15;
@@ -262,7 +272,7 @@
             // toolstrip_File_Exit
             // 
             toolstrip_File_Exit.Name = "toolstrip_File_Exit";
-            toolstrip_File_Exit.Size = new Size(180, 22);
+            toolstrip_File_Exit.Size = new Size(93, 22);
             toolstrip_File_Exit.Text = "E&xit";
             toolstrip_File_Exit.Click += toolstrip_File_Exit_Click;
             // 
@@ -356,5 +366,6 @@
         private ToolStripMenuItem toolstrip_Help_About;
         private ToolStripMenuItem toolstrip_File_Exit;
         private Button btnClearLog;
+        private ProgressBar progressBar;
     }
 }
