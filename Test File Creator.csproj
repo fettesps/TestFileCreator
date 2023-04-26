@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <RootNamespace>Test_File_Creator</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Copyright>Brad Fettes</Copyright>
+    <Description>A simple program to generate test files with lorem ipsum text for content.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JGP.NLipsum" Version="1.0.2" />
+  </ItemGroup>
+
+</Project>
