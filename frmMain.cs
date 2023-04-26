@@ -13,7 +13,6 @@ namespace Test_File_Creator
             cboFileSizeMin.SelectedIndex = 0;
             cboFileSizeMax.SelectedIndex = 0;
 
-            //txtPath.Text = @"C:\Source\Test File Creator\x";
             txtPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
 
@@ -38,14 +37,15 @@ namespace Test_File_Creator
 
                 for (int i = 0; i <= nudFileNameWordCount.Value; i++)
                 {
-                    sbFileName.Append(lgen.RandomWord());
-                    if (i != nudFileNameWordCount.Value - 1) sbFileName.Append(" ");
+                    string newWord = lgen.RandomWord();
+                    newWord = newWord.Substring(0, 1).ToUpper() + newWord.Substring(1);
+                    sbFileName.Append(newWord);
+                    if (i != nudFileNameWordCount.Value) sbFileName.Append(" ");
                 }
                 sbFileName.Append(".txt");
                 strFileName = sbFileName.ToString();
 
                 string strPath = txtPath.Text + "\\" + strFileName;
-                //string strPath = txtPath.Text + "\\" + lgen.GenerateWords(1)[0] + ".txt";
 
                 if (!File.Exists(strPath))
                 {
@@ -60,7 +60,7 @@ namespace Test_File_Creator
 
                         fs.Write(info, 0, info.Length);
                         //fs.Write(info, 0, (int)nudFileSizeMax.Value > info.Length ? info.Length : (int)nudFileSizeMax.Value);
-                        txtLog.Text += Environment.NewLine + "Created file " + strFileName + " with " + ((int)nudFileSizeMax.Value > info.Length ? info.Length : (int)nudFileSizeMax.Value) + " bytes";
+                        txtLog.Text += Environment.NewLine + "Created file '" + strFileName + "' with " + ((int)nudFileSizeMax.Value > info.Length ? info.Length : (int)nudFileSizeMax.Value) + " bytes";
 
                         intFilesCreated++;
                     }
@@ -91,29 +91,18 @@ namespace Test_File_Creator
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Application.Exit();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            Application.Exit();
         }
 
         private void toolstrip_Help_About_Click(object sender, EventArgs e)
         {
-            try
-            {
-                frmAbout frmAbout = new frmAbout();
-                frmAbout.ShowDialog();
-            }
-            catch (Exception)
-            {
+            frmAbout frmAbout = new frmAbout();
+            frmAbout.ShowDialog();
+        }
 
-                throw;
-            }
+        private void btnClearLog_Click(object sender, EventArgs e)
+        {
+            txtLog.Text = String.Empty;
         }
     }
 }

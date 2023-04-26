@@ -51,6 +51,7 @@
             toolstrip_File_Exit = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             toolstrip_Help_About = new ToolStripMenuItem();
+            btnClearLog = new Button();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudFileNameWordCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFileSizeMax).BeginInit();
@@ -62,6 +63,7 @@
             // pnlMain
             // 
             pnlMain.BorderStyle = BorderStyle.FixedSingle;
+            pnlMain.Controls.Add(btnClearLog);
             pnlMain.Controls.Add(nudFileNameWordCount);
             pnlMain.Controls.Add(lblFileNameWordCount);
             pnlMain.Controls.Add(lblLog);
@@ -86,7 +88,7 @@
             // nudFileNameWordCount
             // 
             nudFileNameWordCount.Location = new Point(586, 59);
-            nudFileNameWordCount.Maximum = new decimal(new int[] { int.MinValue, 2, 0, 0 });
+            nudFileNameWordCount.Maximum = new decimal(new int[] { 15, 0, 0, 0 });
             nudFileNameWordCount.Minimum = new decimal(new int[] { 3, 0, 0, 0 });
             nudFileNameWordCount.Name = "nudFileNameWordCount";
             nudFileNameWordCount.Size = new Size(100, 23);
@@ -268,6 +270,16 @@
             toolstrip_Help_About.Text = "&About...";
             toolstrip_Help_About.Click += toolstrip_Help_About_Click;
             // 
+            // btnClearLog
+            // 
+            btnClearLog.Location = new Point(14, 383);
+            btnClearLog.Name = "btnClearLog";
+            btnClearLog.Size = new Size(75, 23);
+            btnClearLog.TabIndex = 20;
+            btnClearLog.Text = "Clear";
+            btnClearLog.UseVisualStyleBackColor = true;
+            btnClearLog.Click += btnClearLog_Click;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -341,5 +353,6 @@
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripMenuItem toolstrip_Help_About;
         private ToolStripMenuItem toolstrip_File_Exit;
+        private Button btnClearLog;
     }
 }
