@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             pnlMain = new Panel();
+            progressBar = new ProgressBar();
+            btnClearLog = new Button();
             nudFileNameWordCount = new NumericUpDown();
             lblFileNameWordCount = new Label();
             lblLog = new Label();
@@ -42,7 +44,7 @@
             btnBrowse = new Button();
             btnGenerate = new Button();
             lblPath = new Label();
-            txtPath = new TextBox();
+            txtFilePath = new TextBox();
             lblFileSizeMin = new Label();
             lblFileCount = new Label();
             folderBrowserDialog = new FolderBrowserDialog();
@@ -62,6 +64,8 @@
             // pnlMain
             // 
             pnlMain.BorderStyle = BorderStyle.FixedSingle;
+            pnlMain.Controls.Add(progressBar);
+            pnlMain.Controls.Add(btnClearLog);
             pnlMain.Controls.Add(nudFileNameWordCount);
             pnlMain.Controls.Add(lblFileNameWordCount);
             pnlMain.Controls.Add(lblLog);
@@ -75,7 +79,7 @@
             pnlMain.Controls.Add(btnBrowse);
             pnlMain.Controls.Add(btnGenerate);
             pnlMain.Controls.Add(lblPath);
-            pnlMain.Controls.Add(txtPath);
+            pnlMain.Controls.Add(txtFilePath);
             pnlMain.Controls.Add(lblFileSizeMin);
             pnlMain.Controls.Add(lblFileCount);
             pnlMain.Location = new Point(12, 27);
@@ -83,10 +87,27 @@
             pnlMain.Size = new Size(776, 411);
             pnlMain.TabIndex = 0;
             // 
+            // progressBar
+            // 
+            progressBar.Location = new Point(93, 383);
+            progressBar.Name = "progressBar";
+            progressBar.Size = new Size(587, 23);
+            progressBar.TabIndex = 21;
+            // 
+            // btnClearLog
+            // 
+            btnClearLog.Location = new Point(14, 383);
+            btnClearLog.Name = "btnClearLog";
+            btnClearLog.Size = new Size(75, 23);
+            btnClearLog.TabIndex = 20;
+            btnClearLog.Text = "Clear";
+            btnClearLog.UseVisualStyleBackColor = true;
+            btnClearLog.Click += btnClearLog_Click;
+            // 
             // nudFileNameWordCount
             // 
             nudFileNameWordCount.Location = new Point(586, 59);
-            nudFileNameWordCount.Maximum = new decimal(new int[] { int.MinValue, 2, 0, 0 });
+            nudFileNameWordCount.Maximum = new decimal(new int[] { 15, 0, 0, 0 });
             nudFileNameWordCount.Minimum = new decimal(new int[] { 3, 0, 0, 0 });
             nudFileNameWordCount.Name = "nudFileNameWordCount";
             nudFileNameWordCount.Size = new Size(100, 23);
@@ -116,6 +137,7 @@
             txtLog.Location = new Point(14, 164);
             txtLog.Multiline = true;
             txtLog.Name = "txtLog";
+            txtLog.ReadOnly = true;
             txtLog.ScrollBars = ScrollBars.Vertical;
             txtLog.Size = new Size(747, 213);
             txtLog.TabIndex = 15;
@@ -207,12 +229,12 @@
             lblPath.TabIndex = 5;
             lblPath.Text = "Path:";
             // 
-            // txtPath
+            // txtFilePath
             // 
-            txtPath.Location = new Point(58, 106);
-            txtPath.Name = "txtPath";
-            txtPath.Size = new Size(356, 23);
-            txtPath.TabIndex = 4;
+            txtFilePath.Location = new Point(58, 106);
+            txtFilePath.Name = "txtFilePath";
+            txtFilePath.Size = new Size(356, 23);
+            txtFilePath.TabIndex = 4;
             // 
             // lblFileSizeMin
             // 
@@ -276,7 +298,9 @@
             Controls.Add(pnlMain);
             Controls.Add(menuStrip);
             MainMenuStrip = menuStrip;
+            MaximizeBox = false;
             Name = "frmMain";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Test File Creator";
             pnlMain.ResumeLayout(false);
             pnlMain.PerformLayout();
@@ -295,7 +319,7 @@
         private Panel pnlMain;
         private Button btnGenerate;
         private Label lblPath;
-        private TextBox txtPath;
+        private TextBox txtFilePath;
         private Label lblFileSizeMin;
         private Label lblFileCount;
         private FolderBrowserDialog folderBrowserDialog;
@@ -341,5 +365,7 @@
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripMenuItem toolstrip_Help_About;
         private ToolStripMenuItem toolstrip_File_Exit;
+        private Button btnClearLog;
+        private ProgressBar progressBar;
     }
 }

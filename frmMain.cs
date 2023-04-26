@@ -6,26 +6,28 @@ namespace Test_File_Creator
 {
     public partial class frmMain : Form
     {
+        #region Initialization
+
         public frmMain()
         {
             InitializeComponent();
 
+            // Defaults
             cboFileSizeMin.SelectedIndex = 0;
             cboFileSizeMax.SelectedIndex = 0;
+            txtFilePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-            //txtPath.Text = @"C:\Source\Test File Creator\x";
-            txtPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            // Load Settings
+            nudFileCount.Value = (int)Properties.Settings.Default["FileCount"];
+            nudFileSizeMin.Value = (long)Properties.Settings.Default["FileSizeMin"];
+            nudFileSizeMax.Value = (long)Properties.Settings.Default["FileSizeMax"];
+            nudFileNameWordCount.Value = (int)Properties.Settings.Default["FilenameWordCount"];
+            txtFilePath.Text = Properties.Settings.Default["FilePath"].ToString() != String.Empty ? Properties.Settings.Default["FilePath"].ToString() : txtFilePath.Text;
         }
 
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            folderBrowserDialog.InitialDirectory = txtPath.Text;
-            DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
-            if (drFolder == DialogResult.OK)
-            {
-                txtPath.Text = folderBrowserDialog.SelectedPath;
-            }
-        }
+        #endregion
+
+        #region Methods
 
         private void CreateFiles(ref int intFilesCreated)
         {
@@ -38,14 +40,15 @@ namespace Test_File_Creator
 
                 for (int i = 0; i <= nudFileNameWordCount.Value; i++)
                 {
-                    sbFileName.Append(lgen.RandomWord());
-                    if (i != nudFileNameWordCount.Value - 1) sbFileName.Append(" ");
+                    string newWord = lgen.RandomWord();
+                    newWord = newWord.Substring(0, 1).ToUpper() + newWord.Substring(1);
+                    sbFileName.Append(newWord);
+                    if (i != nudFileNameWordCount.Value) sbFileName.Append(" ");
                 }
                 sbFileName.Append(".txt");
                 strFileName = sbFileName.ToString();
 
-                string strPath = txtPath.Text + "\\" + strFileName;
-                //string strPath = txtPath.Text + "\\" + lgen.GenerateWords(1)[0] + ".txt";
+                string strPath = txtFilePath.Text + "\\" + strFileName;
 
                 if (!File.Exists(strPath))
                 {
@@ -60,7 +63,7 @@ namespace Test_File_Creator
 
                         fs.Write(info, 0, info.Length);
                         //fs.Write(info, 0, (int)nudFileSizeMax.Value > info.Length ? info.Length : (int)nudFileSizeMax.Value);
-                        txtLog.Text += Environment.NewLine + "Created file " + strFileName + " with " + ((int)nudFileSizeMax.Value > info.Length ? info.Length : (int)nudFileSizeMax.Value) + " bytes";
+                        txtLog.Text += Environment.NewLine + "Created file '" + strFileName + "' with " + ((int)nudFileSizeMax.Value > info.Length ? info.Length : (int)nudFileSizeMax.Value) + " bytes";
 
                         intFilesCreated++;
                     }
@@ -76,44 +79,64 @@ namespace Test_File_Creator
             }
         }
 
+        #endregion
+
+        #region Form Events
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog.InitialDirectory = txtFilePath.Text;
+            DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
+            if (drFolder == DialogResult.OK)
+            {
+                txtFilePath.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             int intFilesCreated = 0;
+            progressBar.Minimum = 0;
+            progressBar.Maximum = (int)nudFileCount.Value;
 
-            txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtPath.Text + Environment.NewLine;
+            txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtFilePath.Text + Environment.NewLine;
             for (int i = 0; i < nudFileCount.Value; i++)
             {
                 // Todo: Breakout filename generation, content creation, and file creation into separate methods
                 CreateFiles(ref intFilesCreated);
+
+                Application.DoEvents();
+                progressBar.Value = i;
             }
+            progressBar.Value = (int)nudFileCount.Value;
+
             txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
         }
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Application.Exit();
-            }
-            catch (Exception)
-            {
+            Properties.Settings.Default["FileCount"] = (int)nudFileCount.Value;
+            Properties.Settings.Default["FileSizeMin"] = (long)nudFileSizeMin.Value;
+            Properties.Settings.Default["FileSizeMax"] = (long)nudFileSizeMax.Value;
+            Properties.Settings.Default["FilenameWordCount"] = (int)nudFileNameWordCount.Value;
+            Properties.Settings.Default["FilePath"] = txtFilePath.Text;
+            Properties.Settings.Default.Save();
 
-                throw;
-            }
+            Application.Exit();
         }
 
         private void toolstrip_Help_About_Click(object sender, EventArgs e)
         {
-            try
-            {
-                frmAbout frmAbout = new frmAbout();
-                frmAbout.ShowDialog();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            frmAbout frmAbout = new frmAbout();
+            frmAbout.ShowDialog();
         }
+
+        private void btnClearLog_Click(object sender, EventArgs e)
+        {
+            txtLog.Text = String.Empty;
+            progressBar.Value = 0;
+        }
+
+        #endregion
     }
 }
