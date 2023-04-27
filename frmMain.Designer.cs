@@ -302,6 +302,7 @@
             Name = "frmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Test File Creator";
+            FormClosing += frmMain_FormClosing;
             pnlMain.ResumeLayout(false);
             pnlMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudFileNameWordCount).EndInit();
