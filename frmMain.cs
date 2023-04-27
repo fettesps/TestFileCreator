@@ -79,6 +79,16 @@ namespace Test_File_Creator
             }
         }
 
+        private void SaveSettings()
+        {
+            Properties.Settings.Default["FileCount"] = (int)nudFileCount.Value;
+            Properties.Settings.Default["FileSizeMin"] = (long)nudFileSizeMin.Value;
+            Properties.Settings.Default["FileSizeMax"] = (long)nudFileSizeMax.Value;
+            Properties.Settings.Default["FilenameWordCount"] = (int)nudFileNameWordCount.Value;
+            Properties.Settings.Default["FilePath"] = txtFilePath.Text;
+            Properties.Settings.Default.Save();
+        }
+
         #endregion
 
         #region Form Events
@@ -115,12 +125,7 @@ namespace Test_File_Creator
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default["FileCount"] = (int)nudFileCount.Value;
-            Properties.Settings.Default["FileSizeMin"] = (long)nudFileSizeMin.Value;
-            Properties.Settings.Default["FileSizeMax"] = (long)nudFileSizeMax.Value;
-            Properties.Settings.Default["FilenameWordCount"] = (int)nudFileNameWordCount.Value;
-            Properties.Settings.Default["FilePath"] = txtFilePath.Text;
-            Properties.Settings.Default.Save();
+            SaveSettings();
 
             Application.Exit();
         }
@@ -137,6 +142,12 @@ namespace Test_File_Creator
             progressBar.Value = 0;
         }
 
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettings();
+        }
+
         #endregion
+
     }
 }
