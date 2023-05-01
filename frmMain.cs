@@ -62,8 +62,8 @@ namespace Test_File_Creator
                         byte[] info = new UTF8Encoding(true).GetBytes(String.Join(Environment.NewLine, strFileContents));
 
                         fs.Write(info, 0, info.Length);
-                        //fs.Write(info, 0, (int)nudFileSizeMax.Value > info.Length ? info.Length : (int)nudFileSizeMax.Value);
-                        txtLog.Text += Environment.NewLine + "Created file '" + strFileName + "' with " + ((int)nudFileSizeMax.Value > info.Length ? info.Length : (int)nudFileSizeMax.Value) + " bytes";
+
+                        txtLog.Text += Environment.NewLine + "Created file '" + strFileName + "' with " + info.Length + " bytes";
 
                         intFilesCreated++;
                     }
