@@ -106,7 +106,7 @@
             // 
             // nudFileNameWordCount
             // 
-            nudFileNameWordCount.Location = new Point(586, 59);
+            nudFileNameWordCount.Location = new Point(115, 46);
             nudFileNameWordCount.Maximum = new decimal(new int[] { 15, 0, 0, 0 });
             nudFileNameWordCount.Minimum = new decimal(new int[] { 3, 0, 0, 0 });
             nudFileNameWordCount.Name = "nudFileNameWordCount";
@@ -117,16 +117,16 @@
             // lblFileNameWordCount
             // 
             lblFileNameWordCount.AutoSize = true;
-            lblFileNameWordCount.Location = new Point(452, 61);
+            lblFileNameWordCount.Location = new Point(14, 48);
             lblFileNameWordCount.Name = "lblFileNameWordCount";
-            lblFileNameWordCount.Size = new Size(131, 15);
+            lblFileNameWordCount.Size = new Size(95, 15);
             lblFileNameWordCount.TabIndex = 17;
-            lblFileNameWordCount.Text = "File Name Word Count:";
+            lblFileNameWordCount.Text = "Filename Words:";
             // 
             // lblLog
             // 
             lblLog.AutoSize = true;
-            lblLog.Location = new Point(14, 146);
+            lblLog.Location = new Point(14, 115);
             lblLog.Name = "lblLog";
             lblLog.Size = new Size(30, 15);
             lblLog.TabIndex = 16;
@@ -134,18 +134,18 @@
             // 
             // txtLog
             // 
-            txtLog.Location = new Point(14, 164);
+            txtLog.Location = new Point(14, 133);
             txtLog.Multiline = true;
             txtLog.Name = "txtLog";
             txtLog.ReadOnly = true;
             txtLog.ScrollBars = ScrollBars.Vertical;
-            txtLog.Size = new Size(747, 213);
+            txtLog.Size = new Size(747, 244);
             txtLog.TabIndex = 15;
             // 
             // nudFileSizeMax
             // 
             nudFileSizeMax.Enabled = false;
-            nudFileSizeMax.Location = new Point(93, 71);
+            nudFileSizeMax.Location = new Point(567, 43);
             nudFileSizeMax.Maximum = new decimal(new int[] { int.MinValue, 2, 0, 0 });
             nudFileSizeMax.Name = "nudFileSizeMax";
             nudFileSizeMax.Size = new Size(100, 23);
@@ -155,7 +155,7 @@
             // nudFileSizeMin
             // 
             nudFileSizeMin.Enabled = false;
-            nudFileSizeMin.Location = new Point(93, 42);
+            nudFileSizeMin.Location = new Point(567, 14);
             nudFileSizeMin.Maximum = new decimal(new int[] { int.MinValue, 2, 0, 0 });
             nudFileSizeMin.Name = "nudFileSizeMin";
             nudFileSizeMin.Size = new Size(100, 23);
@@ -164,7 +164,7 @@
             // 
             // nudFileCount
             // 
-            nudFileCount.Location = new Point(93, 14);
+            nudFileCount.Location = new Point(115, 14);
             nudFileCount.Maximum = new decimal(new int[] { 50001, 0, 0, 0 });
             nudFileCount.Name = "nudFileCount";
             nudFileCount.Size = new Size(100, 23);
@@ -176,7 +176,7 @@
             cboFileSizeMax.Enabled = false;
             cboFileSizeMax.FormattingEnabled = true;
             cboFileSizeMax.Items.AddRange(new object[] { "Bytes", "Kilobytes", "Megabytes", "Gigabytes" });
-            cboFileSizeMax.Location = new Point(199, 71);
+            cboFileSizeMax.Location = new Point(673, 43);
             cboFileSizeMax.Name = "cboFileSizeMax";
             cboFileSizeMax.Size = new Size(85, 23);
             cboFileSizeMax.TabIndex = 11;
@@ -184,7 +184,7 @@
             // lblFileSizeMax
             // 
             lblFileSizeMax.AutoSize = true;
-            lblFileSizeMax.Location = new Point(14, 74);
+            lblFileSizeMax.Location = new Point(488, 46);
             lblFileSizeMax.Name = "lblFileSizeMax";
             lblFileSizeMax.Size = new Size(77, 15);
             lblFileSizeMax.TabIndex = 10;
@@ -195,14 +195,14 @@
             cboFileSizeMin.Enabled = false;
             cboFileSizeMin.FormattingEnabled = true;
             cboFileSizeMin.Items.AddRange(new object[] { "Bytes", "Kilobytes", "Megabytes", "Gigabytes" });
-            cboFileSizeMin.Location = new Point(199, 42);
+            cboFileSizeMin.Location = new Point(673, 14);
             cboFileSizeMin.Name = "cboFileSizeMin";
             cboFileSizeMin.Size = new Size(85, 23);
             cboFileSizeMin.TabIndex = 8;
             // 
             // btnBrowse
             // 
-            btnBrowse.Location = new Point(418, 106);
+            btnBrowse.Location = new Point(729, 75);
             btnBrowse.Name = "btnBrowse";
             btnBrowse.Size = new Size(29, 23);
             btnBrowse.TabIndex = 7;
@@ -223,23 +223,23 @@
             // lblPath
             // 
             lblPath.AutoSize = true;
-            lblPath.Location = new Point(14, 109);
+            lblPath.Location = new Point(14, 79);
             lblPath.Name = "lblPath";
-            lblPath.Size = new Size(34, 15);
+            lblPath.Size = new Size(96, 15);
             lblPath.TabIndex = 5;
-            lblPath.Text = "Path:";
+            lblPath.Text = "File Output Path:";
             // 
             // txtFilePath
             // 
-            txtFilePath.Location = new Point(58, 106);
+            txtFilePath.Location = new Point(115, 76);
             txtFilePath.Name = "txtFilePath";
-            txtFilePath.Size = new Size(356, 23);
+            txtFilePath.Size = new Size(611, 23);
             txtFilePath.TabIndex = 4;
             // 
             // lblFileSizeMin
             // 
             lblFileSizeMin.AutoSize = true;
-            lblFileSizeMin.Location = new Point(14, 45);
+            lblFileSizeMin.Location = new Point(488, 17);
             lblFileSizeMin.Name = "lblFileSizeMin";
             lblFileSizeMin.Size = new Size(75, 15);
             lblFileSizeMin.TabIndex = 3;
