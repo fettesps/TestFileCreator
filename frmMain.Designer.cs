@@ -151,6 +151,7 @@
             nudFileSizeMax.Size = new Size(100, 23);
             nudFileSizeMax.TabIndex = 14;
             nudFileSizeMax.Value = new decimal(new int[] { 10240, 0, 0, 0 });
+            nudFileSizeMax.Visible = false;
             // 
             // nudFileSizeMin
             // 
@@ -161,6 +162,7 @@
             nudFileSizeMin.Size = new Size(100, 23);
             nudFileSizeMin.TabIndex = 13;
             nudFileSizeMin.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nudFileSizeMin.Visible = false;
             // 
             // nudFileCount
             // 
@@ -180,6 +182,7 @@
             cboFileSizeMax.Name = "cboFileSizeMax";
             cboFileSizeMax.Size = new Size(85, 23);
             cboFileSizeMax.TabIndex = 11;
+            cboFileSizeMax.Visible = false;
             // 
             // lblFileSizeMax
             // 
@@ -189,6 +192,7 @@
             lblFileSizeMax.Size = new Size(77, 15);
             lblFileSizeMax.TabIndex = 10;
             lblFileSizeMax.Text = "Max File Size:";
+            lblFileSizeMax.Visible = false;
             // 
             // cboFileSizeMin
             // 
@@ -199,6 +203,7 @@
             cboFileSizeMin.Name = "cboFileSizeMin";
             cboFileSizeMin.Size = new Size(85, 23);
             cboFileSizeMin.TabIndex = 8;
+            cboFileSizeMin.Visible = false;
             // 
             // btnBrowse
             // 
@@ -244,6 +249,7 @@
             lblFileSizeMin.Size = new Size(75, 15);
             lblFileSizeMin.TabIndex = 3;
             lblFileSizeMin.Text = "Min File Size:";
+            lblFileSizeMin.Visible = false;
             // 
             // lblFileCount
             // 
