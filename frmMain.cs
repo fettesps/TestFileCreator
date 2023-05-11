@@ -147,6 +147,12 @@ namespace Test_File_Creator
             SaveSettings();
         }
 
+        private void txtLog_TextChanged(object sender, EventArgs e)
+        {
+            txtLog.SelectionStart = txtLog.Text.Length;
+            txtLog.ScrollToCaret();
+        }
+
         #endregion
     }
 }

@@ -142,6 +142,7 @@
             txtLog.ScrollBars = ScrollBars.Vertical;
             txtLog.Size = new Size(747, 244);
             txtLog.TabIndex = 15;
+            txtLog.TextChanged += txtLog_TextChanged;
             // 
             // nudFileSizeMax
             // 
