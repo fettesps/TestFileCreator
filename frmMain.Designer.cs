@@ -134,6 +134,7 @@
             // 
             // txtLog
             // 
+            txtLog.BackColor = SystemColors.ControlLightLight;
             txtLog.Location = new Point(14, 133);
             txtLog.Multiline = true;
             txtLog.Name = "txtLog";
