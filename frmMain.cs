@@ -109,6 +109,7 @@ namespace Test_File_Creator
             progressBar.Minimum = 0;
             progressBar.Maximum = (int)nudFileCount.Value;
 
+            btnGenerate.Enabled = false;
             txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtFilePath.Text + Environment.NewLine;
             for (int i = 0; i < nudFileCount.Value; i++)
             {
@@ -121,6 +122,7 @@ namespace Test_File_Creator
             progressBar.Value = (int)nudFileCount.Value;
 
             txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
+            btnGenerate.Enabled = true;
         }
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
