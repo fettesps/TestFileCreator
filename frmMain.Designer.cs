@@ -53,6 +53,8 @@
             toolstrip_File_Exit = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             toolstrip_Help_About = new ToolStripMenuItem();
+            lblTextGenerator = new Label();
+            cboTextGenerator = new ComboBox();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudFileNameWordCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFileSizeMax).BeginInit();
@@ -64,6 +66,8 @@
             // pnlMain
             // 
             pnlMain.BorderStyle = BorderStyle.FixedSingle;
+            pnlMain.Controls.Add(cboTextGenerator);
+            pnlMain.Controls.Add(lblTextGenerator);
             pnlMain.Controls.Add(progressBar);
             pnlMain.Controls.Add(btnClearLog);
             pnlMain.Controls.Add(nudFileNameWordCount);
@@ -298,6 +302,24 @@
             toolstrip_Help_About.Text = "&About...";
             toolstrip_Help_About.Click += toolstrip_Help_About_Click;
             // 
+            // lblTextGenerator
+            // 
+            lblTextGenerator.AutoSize = true;
+            lblTextGenerator.Location = new Point(233, 16);
+            lblTextGenerator.Name = "lblTextGenerator";
+            lblTextGenerator.Size = new Size(86, 15);
+            lblTextGenerator.TabIndex = 22;
+            lblTextGenerator.Text = "Text Generator:";
+            // 
+            // cboTextGenerator
+            // 
+            cboTextGenerator.FormattingEnabled = true;
+            cboTextGenerator.Items.AddRange(new object[] { "LipsumGenerator", "Faker.net" });
+            cboTextGenerator.Location = new Point(325, 14);
+            cboTextGenerator.Name = "cboTextGenerator";
+            cboTextGenerator.Size = new Size(141, 23);
+            cboTextGenerator.TabIndex = 23;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -376,5 +398,7 @@
         private ToolStripMenuItem toolstrip_File_Exit;
         private Button btnClearLog;
         private ProgressBar progressBar;
+        private ComboBox cboTextGenerator;
+        private Label lblTextGenerator;
     }
 }
