@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             pnlMain = new Panel();
+            cboTextGenerator = new ComboBox();
+            lblTextGenerator = new Label();
             progressBar = new ProgressBar();
             btnClearLog = new Button();
             nudFileNameWordCount = new NumericUpDown();
@@ -53,8 +55,6 @@
             toolstrip_File_Exit = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             toolstrip_Help_About = new ToolStripMenuItem();
-            lblTextGenerator = new Label();
-            cboTextGenerator = new ComboBox();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudFileNameWordCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFileSizeMax).BeginInit();
@@ -90,6 +90,25 @@
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(776, 411);
             pnlMain.TabIndex = 0;
+            // 
+            // cboTextGenerator
+            // 
+            cboTextGenerator.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTextGenerator.FormattingEnabled = true;
+            cboTextGenerator.Items.AddRange(new object[] { "LipsumGenerator", "Faker.net" });
+            cboTextGenerator.Location = new Point(325, 14);
+            cboTextGenerator.Name = "cboTextGenerator";
+            cboTextGenerator.Size = new Size(141, 23);
+            cboTextGenerator.TabIndex = 23;
+            // 
+            // lblTextGenerator
+            // 
+            lblTextGenerator.AutoSize = true;
+            lblTextGenerator.Location = new Point(233, 16);
+            lblTextGenerator.Name = "lblTextGenerator";
+            lblTextGenerator.Size = new Size(86, 15);
+            lblTextGenerator.TabIndex = 22;
+            lblTextGenerator.Text = "Text Generator:";
             // 
             // progressBar
             // 
@@ -181,6 +200,7 @@
             // 
             // cboFileSizeMax
             // 
+            cboFileSizeMax.DropDownStyle = ComboBoxStyle.DropDownList;
             cboFileSizeMax.Enabled = false;
             cboFileSizeMax.FormattingEnabled = true;
             cboFileSizeMax.Items.AddRange(new object[] { "Bytes", "Kilobytes", "Megabytes", "Gigabytes" });
@@ -202,6 +222,7 @@
             // 
             // cboFileSizeMin
             // 
+            cboFileSizeMin.DropDownStyle = ComboBoxStyle.DropDownList;
             cboFileSizeMin.Enabled = false;
             cboFileSizeMin.FormattingEnabled = true;
             cboFileSizeMin.Items.AddRange(new object[] { "Bytes", "Kilobytes", "Megabytes", "Gigabytes" });
@@ -301,24 +322,6 @@
             toolstrip_Help_About.Size = new Size(116, 22);
             toolstrip_Help_About.Text = "&About...";
             toolstrip_Help_About.Click += toolstrip_Help_About_Click;
-            // 
-            // lblTextGenerator
-            // 
-            lblTextGenerator.AutoSize = true;
-            lblTextGenerator.Location = new Point(233, 16);
-            lblTextGenerator.Name = "lblTextGenerator";
-            lblTextGenerator.Size = new Size(86, 15);
-            lblTextGenerator.TabIndex = 22;
-            lblTextGenerator.Text = "Text Generator:";
-            // 
-            // cboTextGenerator
-            // 
-            cboTextGenerator.FormattingEnabled = true;
-            cboTextGenerator.Items.AddRange(new object[] { "LipsumGenerator", "Faker.net" });
-            cboTextGenerator.Location = new Point(325, 14);
-            cboTextGenerator.Name = "cboTextGenerator";
-            cboTextGenerator.Size = new Size(141, 23);
-            cboTextGenerator.TabIndex = 23;
             // 
             // frmMain
             // 

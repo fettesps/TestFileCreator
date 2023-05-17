@@ -95,13 +95,13 @@ namespace Test_File_Creator
                 case 1:
                     {
                         var newWords = Faker.Lorem.Words((int)nudFileNameWordCount.Value);
-                        
+
                         foreach (var word in newWords)
                         {
                             newWord = word.Substring(0, 1).ToUpper() + word.Substring(1);
                             sbFileName.Append(newWord);
                             if (word != newWords.Last()) sbFileName.Append(" ");
-                        }                                               
+                        }
                     }
                     break;
             }
