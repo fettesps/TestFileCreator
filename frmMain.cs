@@ -1,5 +1,8 @@
+using NLipsum.Core;
 using NLipsum.Core.Features;
 using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Test_File_Creator
@@ -15,6 +18,7 @@ namespace Test_File_Creator
             // Defaults
             cboFileSizeMin.SelectedIndex = 0;
             cboFileSizeMax.SelectedIndex = 0;
+            cboTextGenerator.SelectedIndex = 0;
             txtFilePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             // Load Settings
@@ -33,21 +37,7 @@ namespace Test_File_Creator
         {
             try
             {
-                var lgen = new NLipsum.Core.LipsumGenerator();
-
-                string strFileName = String.Empty;
-                StringBuilder sbFileName = new StringBuilder();
-
-                for (int i = 0; i <= nudFileNameWordCount.Value; i++)
-                {
-                    string newWord = lgen.RandomWord();
-                    newWord = newWord.Substring(0, 1).ToUpper() + newWord.Substring(1);
-                    sbFileName.Append(newWord);
-                    if (i != nudFileNameWordCount.Value) sbFileName.Append(" ");
-                }
-                sbFileName.Append(".txt");
-                strFileName = sbFileName.ToString();
-
+                string strFileName = GenerateFileName(cboTextGenerator.SelectedIndex);
                 string strPath = txtFilePath.Text + "\\" + strFileName;
 
                 if (!File.Exists(strPath))
@@ -57,7 +47,7 @@ namespace Test_File_Creator
                         // Todo: Figure out a better way to predict how many paragraphs we need
                         //      10 = roughly 7kb
                         //     100 = roughly 68-76kb
-                        var strFileContents = lgen.GenerateParagraphs(10, Paragraph.Medium);
+                        var strFileContents = GenerateFileContents(cboTextGenerator.SelectedIndex);
 
                         byte[] info = new UTF8Encoding(true).GetBytes(String.Join(Environment.NewLine, strFileContents));
 
@@ -70,13 +60,82 @@ namespace Test_File_Creator
                 }
                 else
                 {
-                    txtLog.Text += Environment.NewLine + "Error creating file, file already exists.  File name: " + strFileName;
+                    txtLog.Text += Environment.NewLine + "Error creating file, file already exists.  Filename: " + strFileName;
                 }
             }
             catch (Exception ex)
             {
                 txtLog.Text += Environment.NewLine + "Error creating file " + ex.ToString();
             }
+        }
+
+        private string GenerateFileName(int intTextGenerator)
+        {
+            var lgen = new NLipsum.Core.LipsumGenerator();
+            string strFileName = String.Empty;
+            StringBuilder sbFileName = new StringBuilder();
+            string newWord = String.Empty;
+
+            switch (intTextGenerator)
+            {
+                // Use NLipsum
+                case 0:
+                    {
+                        for (int i = 0; i <= nudFileNameWordCount.Value; i++)
+                        {
+                            newWord = lgen.RandomWord();
+                            newWord = newWord != String.Empty ? newWord.Substring(0, 1).ToUpper() + newWord.Substring(1) : newWord;
+                            sbFileName.Append(newWord);
+                            if (i != nudFileNameWordCount.Value) sbFileName.Append(" ");
+                        }
+                    }
+                    break;
+
+                // User Faker.net
+                case 1:
+                    {
+                        var newWords = Faker.Lorem.Words((int)nudFileNameWordCount.Value);
+                        
+                        foreach (var word in newWords)
+                        {
+                            newWord = word.Substring(0, 1).ToUpper() + word.Substring(1);
+                            sbFileName.Append(newWord);
+                            if (word != newWords.Last()) sbFileName.Append(" ");
+                        }                                               
+                    }
+                    break;
+            }
+
+            sbFileName.Append(".txt");
+            strFileName = sbFileName.ToString();
+
+            return strFileName;
+        }
+
+        private static List<string> GenerateFileContents(int intTextGenerator)
+        {
+
+            List<string> strContents = new List<string>();
+
+            switch (intTextGenerator)
+            {
+                // Use NLipsum
+                case 0:
+                    {
+                        var lgen = new NLipsum.Core.LipsumGenerator();
+                        strContents = lgen.GenerateParagraphs(10, Paragraph.Medium);
+                    }
+                    break;
+
+                // User Faker.net
+                case 1:
+                    {
+                        strContents = Faker.Lorem.Paragraphs(10).ToList();
+                    }
+                    break;
+            }
+
+            return strContents;
         }
 
         private void SaveSettings()
