@@ -1,3 +1,4 @@
+using NLipsum.Core;
 using NLipsum.Core.Features;
 using System.IO;
 using System.Text;
@@ -33,21 +34,7 @@ namespace Test_File_Creator
         {
             try
             {
-                var lgen = new NLipsum.Core.LipsumGenerator();
-
-                string strFileName = String.Empty;
-                StringBuilder sbFileName = new StringBuilder();
-
-                for (int i = 0; i <= nudFileNameWordCount.Value; i++)
-                {
-                    string newWord = lgen.RandomWord();
-                    newWord = newWord.Substring(0, 1).ToUpper() + newWord.Substring(1);
-                    sbFileName.Append(newWord);
-                    if (i != nudFileNameWordCount.Value) sbFileName.Append(" ");
-                }
-                sbFileName.Append(".txt");
-                strFileName = sbFileName.ToString();
-
+                string strFileName = GenerateFileName();
                 string strPath = txtFilePath.Text + "\\" + strFileName;
 
                 if (!File.Exists(strPath))
@@ -57,7 +44,7 @@ namespace Test_File_Creator
                         // Todo: Figure out a better way to predict how many paragraphs we need
                         //      10 = roughly 7kb
                         //     100 = roughly 68-76kb
-                        var strFileContents = lgen.GenerateParagraphs(10, Paragraph.Medium);
+                        var strFileContents = GenerateFileContents();
 
                         byte[] info = new UTF8Encoding(true).GetBytes(String.Join(Environment.NewLine, strFileContents));
 
@@ -79,6 +66,31 @@ namespace Test_File_Creator
             }
         }
 
+        private static List<string> GenerateFileContents()
+        {
+            var lgen = new NLipsum.Core.LipsumGenerator();
+            return lgen.GenerateParagraphs(10, Paragraph.Medium);
+        }
+
+        private string GenerateFileName()
+        {
+            var lgen = new NLipsum.Core.LipsumGenerator();
+            string strFileName = String.Empty;
+            StringBuilder sbFileName = new StringBuilder();
+
+            for (int i = 0; i <= nudFileNameWordCount.Value; i++)
+            {
+                string newWord = lgen.RandomWord();
+                newWord = newWord.Substring(0, 1).ToUpper() + newWord.Substring(1);
+                sbFileName.Append(newWord);
+                if (i != nudFileNameWordCount.Value) sbFileName.Append(" ");
+            }
+            sbFileName.Append(".txt");
+            strFileName = sbFileName.ToString();
+
+            return strFileName;
+        }
+
         private void SaveSettings()
         {
             Properties.Settings.Default["FileCount"] = (int)nudFileCount.Value;
@@ -88,6 +100,7 @@ namespace Test_File_Creator
             Properties.Settings.Default["FilePath"] = txtFilePath.Text;
             Properties.Settings.Default.Save();
         }
+
 
         #endregion
 
