@@ -1,5 +1,6 @@
 using NLipsum.Core;
 using NLipsum.Core.Features;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,11 +12,14 @@ namespace Test_File_Creator
     {
         #region Initialization
 
+        Stopwatch swElapsed = new Stopwatch();
+
         public frmMain()
         {
             InitializeComponent();
 
             // Defaults
+            lblElapsed.Text = String.Empty;
             cboFileSizeMin.SelectedIndex = 0;
             cboFileSizeMax.SelectedIndex = 0;
             cboTextGenerator.SelectedIndex = 0;
@@ -95,13 +99,13 @@ namespace Test_File_Creator
                 case 1:
                     {
                         var newWords = Faker.Lorem.Words((int)nudFileNameWordCount.Value);
-                        
+
                         foreach (var word in newWords)
                         {
                             newWord = word.Substring(0, 1).ToUpper() + word.Substring(1);
                             sbFileName.Append(newWord);
                             if (word != newWords.Last()) sbFileName.Append(" ");
-                        }                                               
+                        }
                     }
                     break;
             }
@@ -165,6 +169,8 @@ namespace Test_File_Creator
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             int intFilesCreated = 0;
+            swElapsed.Start();
+            timerElapsed.Start();
             progressBar.Minimum = 0;
             progressBar.Maximum = (int)nudFileCount.Value;
 
@@ -181,6 +187,9 @@ namespace Test_File_Creator
             progressBar.Value = (int)nudFileCount.Value;
 
             txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
+            timerElapsed.Stop();
+            swElapsed.Stop();
+            txtLog.Text += Environment.NewLine + Environment.NewLine + "Elapsed time: " + swElapsed.Elapsed.ToString();
             btnGenerate.Enabled = true;
         }
 
@@ -214,6 +223,19 @@ namespace Test_File_Creator
             txtLog.ScrollToCaret();
         }
 
+        private void timerElapsed_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                lblElapsed.Text = "Elapsed Time: " + swElapsed.Elapsed.ToString();
+            }
+            catch (Exception ex)
+            {
+                txtLog.Text += Environment.NewLine + "Error in timerElapsed_Tick. " + ex.ToString();
+            }
+        }
+
         #endregion
+
     }
 }
