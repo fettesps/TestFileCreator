@@ -1,5 +1,6 @@
 using NLipsum.Core.Features;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -197,7 +198,13 @@ namespace Test_File_Creator
             }
         }
 
-        #endregion
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            int intFilesCreated = 0;
+            swElapsed.Start();
+            timerElapsed.Start();
+            progressBar.Minimum = 0;
+            progressBar.Maximum = (int)nudFileCount.Value;
 
         #region Form Events
 
@@ -206,9 +213,11 @@ namespace Test_File_Creator
             BrowseForFilePath();
         }
 
-        private void btnGenerate_Click(object sender, EventArgs e)
-        {
-            GenerateFiles();
+            txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
+            timerElapsed.Stop();
+            swElapsed.Stop();
+            txtLog.Text += Environment.NewLine + Environment.NewLine + "Elapsed time: " + swElapsed.Elapsed.ToString();
+            btnGenerate.Enabled = true;
         }
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
@@ -253,6 +262,19 @@ namespace Test_File_Creator
             }
         }
 
+        private void timerElapsed_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                lblElapsed.Text = "Elapsed Time: " + swElapsed.Elapsed.ToString();
+            }
+            catch (Exception ex)
+            {
+                txtLog.Text += Environment.NewLine + "Error in timerElapsed_Tick. " + ex.ToString();
+            }
+        }
+
         #endregion
+
     }
 }
