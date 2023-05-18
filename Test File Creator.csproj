@@ -11,8 +11,8 @@
     <Description>A simple program to generate test files with lorem ipsum text for content.</Description>
     <RepositoryUrl>https://github.com/fettesps/TestFileCreator</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <FileVersion>1.0.0.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

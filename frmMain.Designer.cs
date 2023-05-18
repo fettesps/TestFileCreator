@@ -28,7 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             pnlMain = new Panel();
+            lblElapsed = new Label();
+            cboTextGenerator = new ComboBox();
+            lblTextGenerator = new Label();
             progressBar = new ProgressBar();
             btnClearLog = new Button();
             nudFileNameWordCount = new NumericUpDown();
@@ -53,8 +57,7 @@
             toolstrip_File_Exit = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             toolstrip_Help_About = new ToolStripMenuItem();
-            lblTextGenerator = new Label();
-            cboTextGenerator = new ComboBox();
+            timerElapsed = new System.Windows.Forms.Timer(components);
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudFileNameWordCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFileSizeMax).BeginInit();
@@ -66,6 +69,7 @@
             // pnlMain
             // 
             pnlMain.BorderStyle = BorderStyle.FixedSingle;
+            pnlMain.Controls.Add(lblElapsed);
             pnlMain.Controls.Add(cboTextGenerator);
             pnlMain.Controls.Add(lblTextGenerator);
             pnlMain.Controls.Add(progressBar);
@@ -90,6 +94,33 @@
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(776, 411);
             pnlMain.TabIndex = 0;
+            // 
+            // lblElapsed
+            // 
+            lblElapsed.AutoSize = true;
+            lblElapsed.Location = new Point(240, 48);
+            lblElapsed.Name = "lblElapsed";
+            lblElapsed.Size = new Size(82, 15);
+            lblElapsed.TabIndex = 24;
+            lblElapsed.Text = "Elapsed Time: ";
+            // 
+            // cboTextGenerator
+            // 
+            cboTextGenerator.FormattingEnabled = true;
+            cboTextGenerator.Items.AddRange(new object[] { "LipsumGenerator", "Faker.net" });
+            cboTextGenerator.Location = new Point(325, 14);
+            cboTextGenerator.Name = "cboTextGenerator";
+            cboTextGenerator.Size = new Size(141, 23);
+            cboTextGenerator.TabIndex = 23;
+            // 
+            // lblTextGenerator
+            // 
+            lblTextGenerator.AutoSize = true;
+            lblTextGenerator.Location = new Point(233, 16);
+            lblTextGenerator.Name = "lblTextGenerator";
+            lblTextGenerator.Size = new Size(86, 15);
+            lblTextGenerator.TabIndex = 22;
+            lblTextGenerator.Text = "Text Generator:";
             // 
             // progressBar
             // 
@@ -302,23 +333,9 @@
             toolstrip_Help_About.Text = "&About...";
             toolstrip_Help_About.Click += toolstrip_Help_About_Click;
             // 
-            // lblTextGenerator
+            // timerElapsed
             // 
-            lblTextGenerator.AutoSize = true;
-            lblTextGenerator.Location = new Point(233, 16);
-            lblTextGenerator.Name = "lblTextGenerator";
-            lblTextGenerator.Size = new Size(86, 15);
-            lblTextGenerator.TabIndex = 22;
-            lblTextGenerator.Text = "Text Generator:";
-            // 
-            // cboTextGenerator
-            // 
-            cboTextGenerator.FormattingEnabled = true;
-            cboTextGenerator.Items.AddRange(new object[] { "LipsumGenerator", "Faker.net" });
-            cboTextGenerator.Location = new Point(325, 14);
-            cboTextGenerator.Name = "cboTextGenerator";
-            cboTextGenerator.Size = new Size(141, 23);
-            cboTextGenerator.TabIndex = 23;
+            timerElapsed.Tick += timerElapsed_Tick;
             // 
             // frmMain
             // 
@@ -400,5 +417,7 @@
         private ProgressBar progressBar;
         private ComboBox cboTextGenerator;
         private Label lblTextGenerator;
+        private System.Windows.Forms.Timer timerElapsed;
+        private Label lblElapsed;
     }
 }
