@@ -344,6 +344,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(pnlMain);
             Controls.Add(menuStrip);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip;
             MaximizeBox = false;
             Name = "frmMain";
