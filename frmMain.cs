@@ -3,6 +3,7 @@ using NLipsum.Core.Features;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -24,6 +25,7 @@ namespace Test_File_Creator
             cboFileSizeMax.SelectedIndex = 0;
             cboTextGenerator.SelectedIndex = 0;
             txtFilePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            this.Text = Application.ProductName + " - v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 
             // Load Settings
             nudFileCount.Value = (int)Properties.Settings.Default["FileCount"];
