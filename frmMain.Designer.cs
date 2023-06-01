@@ -380,7 +380,7 @@
         private NumericUpDown nudFileSizeMax;
         private NumericUpDown nudFileSizeMin;
         private Label lblLog;
-        private TextBox txtLog;
+        public TextBox txtLog;
         private NumericUpDown nudFileNameWordCount;
         private Label lblFileNameWordCount;
         private MenuStrip menuStrip;

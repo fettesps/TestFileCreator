@@ -39,12 +39,49 @@ namespace Test_File_Creator
 
         #region Methods
 
-        private void CreateFiles(ref int intFilesCreated)
+        public void CreateFiles(int intTextGenerator, int intFileCount, string strPath)
         {
             try
             {
-                string strFileName = GenerateFileName(cboTextGenerator.SelectedIndex);
-                string strPath = txtFilePath.Text + "\\" + strFileName;
+                int intFilesCreated = 0;
+                swElapsed.Start();
+                timerElapsed.Start();
+                progressBar.Minimum = 0;
+                progressBar.Maximum = intFileCount;
+                btnGenerate.Enabled = false;
+                txtLog.Text = "Starting to generate " + intFileCount + " files at " + strPath + Environment.NewLine;
+
+                for (int i = 0; i < intFileCount; i++)
+                {
+                    CreateFile(intTextGenerator, strPath, ref intFilesCreated);
+
+                    Application.DoEvents();
+                    progressBar.Value = i;
+                }
+
+                progressBar.Value = intFileCount;
+                txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
+                timerElapsed.Stop();
+                swElapsed.Stop();
+                txtLog.Text += Environment.NewLine + Environment.NewLine + "Elapsed time: " + swElapsed.Elapsed.ToString();
+                btnGenerate.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                txtLog.Text += Environment.NewLine + "Error creating file " + ex.ToString();
+            }
+        }
+
+        // Todo: Split this method into smaller methods for unit testing
+        // Params:
+        //     intTextGenerator: 0 = NLipsum, 1 = Faker.net 
+        //     strPath:          Path to save file to
+        // cboTextGenerator.SelectedIndex should be a parameter
+        private void CreateFile(int intTextGenerator, string strPath, ref int intFilesCreated)
+        {
+            try
+            {
+                string strFileName = strPath + "\\" + GenerateFileName(intTextGenerator);
 
                 if (!File.Exists(strPath))
                 {
@@ -53,7 +90,7 @@ namespace Test_File_Creator
                         // Todo: Figure out a better way to predict how many paragraphs we need
                         //      10 = roughly 7kb
                         //     100 = roughly 68-76kb
-                        var strFileContents = GenerateFileContents(cboTextGenerator.SelectedIndex);
+                        var strFileContents = GenerateFileContents(intTextGenerator);
 
                         byte[] info = new UTF8Encoding(true).GetBytes(String.Join(Environment.NewLine, strFileContents));
 
@@ -120,7 +157,6 @@ namespace Test_File_Creator
 
         public List<string> GenerateFileContents(int intTextGenerator)
         {
-
             List<string> strContents = new List<string>();
 
             switch (intTextGenerator)
@@ -170,29 +206,11 @@ namespace Test_File_Creator
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            int intFilesCreated = 0;
-            swElapsed.Start();
-            timerElapsed.Start();
-            progressBar.Minimum = 0;
-            progressBar.Maximum = (int)nudFileCount.Value;
+            string strPath = txtFilePath.Text;
+            int intTextGenerator = cboTextGenerator.SelectedIndex;
+            int intFileCount = (int)nudFileCount.Value;
 
-            btnGenerate.Enabled = false;
-            txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtFilePath.Text + Environment.NewLine;
-            for (int i = 0; i < nudFileCount.Value; i++)
-            {
-                // Todo: Breakout filename generation, content creation, and file creation into separate methods
-                CreateFiles(ref intFilesCreated);
-
-                Application.DoEvents();
-                progressBar.Value = i;
-            }
-            progressBar.Value = (int)nudFileCount.Value;
-
-            txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
-            timerElapsed.Stop();
-            swElapsed.Stop();
-            txtLog.Text += Environment.NewLine + Environment.NewLine + "Elapsed time: " + swElapsed.Elapsed.ToString();
-            btnGenerate.Enabled = true;
+            CreateFiles(intTextGenerator, intFileCount, strPath);
         }
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
@@ -208,7 +226,7 @@ namespace Test_File_Creator
             frmAbout.ShowDialog();
         }
 
-        private void btnClearLog_Click(object sender, EventArgs e)
+        public void btnClearLog_Click(object sender, EventArgs e)
         {
             txtLog.Text = String.Empty;
             progressBar.Value = 0;
