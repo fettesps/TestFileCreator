@@ -75,7 +75,7 @@ namespace Test_File_Creator
             }
         }
 
-        private string GenerateFileName(int intTextGenerator)
+        public string GenerateFileName(int intTextGenerator)
         {
             var lgen = new NLipsum.Core.LipsumGenerator();
             string strFileName = String.Empty;
@@ -118,7 +118,7 @@ namespace Test_File_Creator
             return strFileName;
         }
 
-        private static List<string> GenerateFileContents(int intTextGenerator)
+        public List<string> GenerateFileContents(int intTextGenerator)
         {
 
             List<string> strContents = new List<string>();
@@ -238,6 +238,5 @@ namespace Test_File_Creator
         }
 
         #endregion
-
     }
 }
