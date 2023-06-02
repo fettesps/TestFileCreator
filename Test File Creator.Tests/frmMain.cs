@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 using Test_File_Creator;
 
 namespace Test_File_Creator.Tests
@@ -19,6 +20,22 @@ namespace Test_File_Creator.Tests
 
             // Assert
             Assert.IsTrue(!String.IsNullOrEmpty(strFilename));
+        }
+
+        [TestMethod()]
+        [DataRow(5, 5)]
+        [DataRow(1, 500)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GenerateFileName_InvalidGenerator_Test(int intTextGenerator, int intFileNameWordCount)
+        {
+            // Arrange
+            frmMain frm = new frmMain();
+
+            // Act
+            String strFilename = frm.GenerateFileName(intTextGenerator, intFileNameWordCount);
+
+            // Assert
+            // Should throw an exception above
         }
 
         [TestMethod()]

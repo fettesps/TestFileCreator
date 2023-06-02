@@ -79,6 +79,8 @@ namespace Test_File_Creator
             StringBuilder sbFileName = new StringBuilder();
             string newWord = String.Empty;
 
+            if(intFileNameWordCount > 50) throw new ArgumentOutOfRangeException("intFileNameWordCount");
+
             switch (intTextGenerator)
             {
                 // Use NLipsum
@@ -107,6 +109,8 @@ namespace Test_File_Creator
                         }
                     }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("intTextGenerator");
             }
 
             sbFileName.Append(".txt");
@@ -135,6 +139,8 @@ namespace Test_File_Creator
                         strContents = Faker.Lorem.Paragraphs(10).ToList();
                     }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("intTextGenerator");
             }
 
             return strContents;
