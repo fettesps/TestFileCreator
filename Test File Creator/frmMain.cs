@@ -39,21 +39,21 @@ namespace Test_File_Creator
 
         #region Methods
 
-        private void CreateFiles(ref int intFilesCreated)
+        private void CreateFiles(ref int intFilesCreated, int intTextGenerator, string strPath, int intFileNameWordCount)
         {
             try
             {
-                string strFileName = GenerateFileName(cboTextGenerator.SelectedIndex);
-                string strPath = txtFilePath.Text + "\\" + strFileName;
+                string strFileName = GenerateFileName(intTextGenerator, intFileNameWordCount);
+                string strFileNameAndPath = strPath + "\\" + strFileName;
 
-                if (!File.Exists(strPath))
+                if (!File.Exists(strFileNameAndPath))
                 {
-                    using (FileStream fs = File.Create(strPath))
+                    using (FileStream fs = File.Create(strFileNameAndPath))
                     {
                         // Todo: Figure out a better way to predict how many paragraphs we need
                         //      10 = roughly 7kb
                         //     100 = roughly 68-76kb
-                        var strFileContents = GenerateFileContents(cboTextGenerator.SelectedIndex);
+                        var strFileContents = GenerateFileContents(intTextGenerator);
 
                         byte[] info = new UTF8Encoding(true).GetBytes(String.Join(Environment.NewLine, strFileContents));
 
@@ -75,7 +75,7 @@ namespace Test_File_Creator
             }
         }
 
-        private string GenerateFileName(int intTextGenerator)
+        private string GenerateFileName(int intTextGenerator, int intFileNameWordCount)
         {
             var lgen = new NLipsum.Core.LipsumGenerator();
             string strFileName = String.Empty;
@@ -87,12 +87,12 @@ namespace Test_File_Creator
                 // Use NLipsum
                 case 0:
                     {
-                        for (int i = 0; i <= nudFileNameWordCount.Value; i++)
+                        for (int i = 0; i <= intFileNameWordCount; i++)
                         {
                             newWord = lgen.RandomWord();
                             newWord = newWord != String.Empty ? newWord.Substring(0, 1).ToUpper() + newWord.Substring(1) : newWord;
                             sbFileName.Append(newWord);
-                            if (i != nudFileNameWordCount.Value) sbFileName.Append(" ");
+                            if (i != intFileNameWordCount) sbFileName.Append(" ");
                         }
                     }
                     break;
@@ -100,7 +100,7 @@ namespace Test_File_Creator
                 // User Faker.net
                 case 1:
                     {
-                        var newWords = Faker.Lorem.Words((int)nudFileNameWordCount.Value);
+                        var newWords = Faker.Lorem.Words((int)intFileNameWordCount);
 
                         foreach (var word in newWords)
                         {
@@ -144,6 +144,33 @@ namespace Test_File_Creator
             return strContents;
         }
 
+        private void GenerateFiles()
+        {
+            int intFilesCreated = 0;
+            swElapsed.Start();
+            timerElapsed.Start();
+            progressBar.Minimum = 0;
+            progressBar.Maximum = (int)nudFileCount.Value;
+
+            btnGenerate.Enabled = false;
+            txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtFilePath.Text + Environment.NewLine;
+            for (int i = 0; i < nudFileCount.Value; i++)
+            {
+                // Todo: Breakout filename generation, content creation, and file creation into separate methods
+                CreateFiles(ref intFilesCreated, cboTextGenerator.SelectedIndex, txtFilePath.Text, (int)nudFileNameWordCount.Value);
+
+                Application.DoEvents();
+                progressBar.Value = i;
+            }
+            progressBar.Value = (int)nudFileCount.Value;
+
+            txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
+            timerElapsed.Stop();
+            swElapsed.Stop();
+            txtLog.Text += Environment.NewLine + Environment.NewLine + "Elapsed time: " + swElapsed.Elapsed.ToString();
+            btnGenerate.Enabled = true;
+        }
+
         private void SaveSettings()
         {
             Properties.Settings.Default["FileCount"] = (int)nudFileCount.Value;
@@ -170,29 +197,7 @@ namespace Test_File_Creator
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            int intFilesCreated = 0;
-            swElapsed.Start();
-            timerElapsed.Start();
-            progressBar.Minimum = 0;
-            progressBar.Maximum = (int)nudFileCount.Value;
-
-            btnGenerate.Enabled = false;
-            txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtFilePath.Text + Environment.NewLine;
-            for (int i = 0; i < nudFileCount.Value; i++)
-            {
-                // Todo: Breakout filename generation, content creation, and file creation into separate methods
-                CreateFiles(ref intFilesCreated);
-
-                Application.DoEvents();
-                progressBar.Value = i;
-            }
-            progressBar.Value = (int)nudFileCount.Value;
-
-            txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
-            timerElapsed.Stop();
-            swElapsed.Stop();
-            txtLog.Text += Environment.NewLine + Environment.NewLine + "Elapsed time: " + swElapsed.Elapsed.ToString();
-            btnGenerate.Enabled = true;
+            GenerateFiles();
         }
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
@@ -238,6 +243,5 @@ namespace Test_File_Creator
         }
 
         #endregion
-
     }
 }
