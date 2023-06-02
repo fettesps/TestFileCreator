@@ -1,10 +1,7 @@
-using NLipsum.Core;
 using NLipsum.Core.Features;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Test_File_Creator
@@ -39,7 +36,7 @@ namespace Test_File_Creator
 
         #region Methods
 
-        public void CreateFiles(ref int intFilesCreated, int intTextGenerator, string strPath, int intFileNameWordCount)
+        public void GenerateFile(ref int intFilesCreated, int intTextGenerator, string strPath, int intFileNameWordCount)
         {
             try
             {
@@ -118,9 +115,8 @@ namespace Test_File_Creator
             return strFileName;
         }
 
-        public static List<string> GenerateFileContents(int intTextGenerator)
+        public List<string> GenerateFileContents(int intTextGenerator)
         {
-
             List<string> strContents = new List<string>();
 
             switch (intTextGenerator)
@@ -157,7 +153,7 @@ namespace Test_File_Creator
             for (int i = 0; i < nudFileCount.Value; i++)
             {
                 // Todo: Breakout filename generation, content creation, and file creation into separate methods
-                CreateFiles(ref intFilesCreated, cboTextGenerator.SelectedIndex, txtFilePath.Text, (int)nudFileNameWordCount.Value);
+                GenerateFile(ref intFilesCreated, cboTextGenerator.SelectedIndex, txtFilePath.Text, (int)nudFileNameWordCount.Value);
 
                 Application.DoEvents();
                 progressBar.Value = i;
