@@ -183,18 +183,24 @@ namespace Test_File_Creator
             Properties.Settings.Default.Save();
         }
 
+        private void BrowseForFilePath()
+        {
+            folderBrowserDialog.InitialDirectory = txtFilePath.Text;
+
+            DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
+            if (drFolder == DialogResult.OK)
+            {
+                txtFilePath.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
         #endregion
 
         #region Form Events
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog.InitialDirectory = txtFilePath.Text;
-            DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
-            if (drFolder == DialogResult.OK)
-            {
-                txtFilePath.Text = folderBrowserDialog.SelectedPath;
-            }
+            BrowseForFilePath();
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
