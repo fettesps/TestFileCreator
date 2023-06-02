@@ -39,7 +39,7 @@ namespace Test_File_Creator
 
         #region Methods
 
-        private void CreateFiles(ref int intFilesCreated, int intTextGenerator, string strPath, int intFileNameWordCount)
+        public void CreateFiles(ref int intFilesCreated, int intTextGenerator, string strPath, int intFileNameWordCount)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace Test_File_Creator
             }
         }
 
-        private string GenerateFileName(int intTextGenerator, int intFileNameWordCount)
+        public string GenerateFileName(int intTextGenerator, int intFileNameWordCount)
         {
             var lgen = new NLipsum.Core.LipsumGenerator();
             string strFileName = String.Empty;
@@ -118,7 +118,7 @@ namespace Test_File_Creator
             return strFileName;
         }
 
-        private static List<string> GenerateFileContents(int intTextGenerator)
+        public static List<string> GenerateFileContents(int intTextGenerator)
         {
 
             List<string> strContents = new List<string>();
@@ -144,7 +144,7 @@ namespace Test_File_Creator
             return strContents;
         }
 
-        private void GenerateFiles()
+        public void GenerateFiles()
         {
             int intFilesCreated = 0;
             swElapsed.Start();
