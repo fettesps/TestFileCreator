@@ -1,9 +1,7 @@
-using NLipsum.Core;
 using NLipsum.Core.Features;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Reflection;
 using System.Text;
 
 namespace Test_File_Creator
@@ -24,6 +22,7 @@ namespace Test_File_Creator
             cboFileSizeMax.SelectedIndex = 0;
             cboTextGenerator.SelectedIndex = 0;
             txtFilePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            this.Text = Application.ProductName + " - v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 
             // Load Settings
             nudFileCount.Value = (int)Properties.Settings.Default["FileCount"];
@@ -37,21 +36,21 @@ namespace Test_File_Creator
 
         #region Methods
 
-        private void CreateFiles(ref int intFilesCreated)
+        public void GenerateFile(ref int intFilesCreated, int intTextGenerator, string strPath, int intFileNameWordCount)
         {
             try
             {
-                string strFileName = GenerateFileName(cboTextGenerator.SelectedIndex);
-                string strPath = txtFilePath.Text + "\\" + strFileName;
+                string strFileName = GenerateFileName(intTextGenerator, intFileNameWordCount);
+                string strFileNameAndPath = strPath + "\\" + strFileName;
 
-                if (!File.Exists(strPath))
+                if (!File.Exists(strFileNameAndPath))
                 {
-                    using (FileStream fs = File.Create(strPath))
+                    using (FileStream fs = File.Create(strFileNameAndPath))
                     {
                         // Todo: Figure out a better way to predict how many paragraphs we need
                         //      10 = roughly 7kb
                         //     100 = roughly 68-76kb
-                        var strFileContents = GenerateFileContents(cboTextGenerator.SelectedIndex);
+                        var strFileContents = GenerateFileContents(intTextGenerator);
 
                         byte[] info = new UTF8Encoding(true).GetBytes(String.Join(Environment.NewLine, strFileContents));
 
@@ -73,24 +72,26 @@ namespace Test_File_Creator
             }
         }
 
-        private string GenerateFileName(int intTextGenerator)
+        public string GenerateFileName(int intTextGenerator, int intFileNameWordCount)
         {
             var lgen = new NLipsum.Core.LipsumGenerator();
             string strFileName = String.Empty;
             StringBuilder sbFileName = new StringBuilder();
             string newWord = String.Empty;
 
+            if(intFileNameWordCount > 50) throw new ArgumentOutOfRangeException("intFileNameWordCount");
+
             switch (intTextGenerator)
             {
                 // Use NLipsum
                 case 0:
                     {
-                        for (int i = 0; i <= nudFileNameWordCount.Value; i++)
+                        for (int i = 0; i <= intFileNameWordCount; i++)
                         {
                             newWord = lgen.RandomWord();
                             newWord = newWord != String.Empty ? newWord.Substring(0, 1).ToUpper() + newWord.Substring(1) : newWord;
                             sbFileName.Append(newWord);
-                            if (i != nudFileNameWordCount.Value) sbFileName.Append(" ");
+                            if (i != intFileNameWordCount) sbFileName.Append(" ");
                         }
                     }
                     break;
@@ -98,7 +99,7 @@ namespace Test_File_Creator
                 // User Faker.net
                 case 1:
                     {
-                        var newWords = Faker.Lorem.Words((int)nudFileNameWordCount.Value);
+                        var newWords = Faker.Lorem.Words((int)intFileNameWordCount);
 
                         foreach (var word in newWords)
                         {
@@ -108,6 +109,8 @@ namespace Test_File_Creator
                         }
                     }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("intTextGenerator");
             }
 
             sbFileName.Append(".txt");
@@ -116,9 +119,8 @@ namespace Test_File_Creator
             return strFileName;
         }
 
-        private static List<string> GenerateFileContents(int intTextGenerator)
+        public List<string> GenerateFileContents(int intTextGenerator)
         {
-
             List<string> strContents = new List<string>();
 
             switch (intTextGenerator)
@@ -137,36 +139,14 @@ namespace Test_File_Creator
                         strContents = Faker.Lorem.Paragraphs(10).ToList();
                     }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("intTextGenerator");
             }
 
             return strContents;
         }
 
-        private void SaveSettings()
-        {
-            Properties.Settings.Default["FileCount"] = (int)nudFileCount.Value;
-            Properties.Settings.Default["FileSizeMin"] = (long)nudFileSizeMin.Value;
-            Properties.Settings.Default["FileSizeMax"] = (long)nudFileSizeMax.Value;
-            Properties.Settings.Default["FilenameWordCount"] = (int)nudFileNameWordCount.Value;
-            Properties.Settings.Default["FilePath"] = txtFilePath.Text;
-            Properties.Settings.Default.Save();
-        }
-
-        #endregion
-
-        #region Form Events
-
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            folderBrowserDialog.InitialDirectory = txtFilePath.Text;
-            DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
-            if (drFolder == DialogResult.OK)
-            {
-                txtFilePath.Text = folderBrowserDialog.SelectedPath;
-            }
-        }
-
-        private void btnGenerate_Click(object sender, EventArgs e)
+        public void GenerateFiles()
         {
             int intFilesCreated = 0;
             swElapsed.Start();
@@ -179,7 +159,7 @@ namespace Test_File_Creator
             for (int i = 0; i < nudFileCount.Value; i++)
             {
                 // Todo: Breakout filename generation, content creation, and file creation into separate methods
-                CreateFiles(ref intFilesCreated);
+                GenerateFile(ref intFilesCreated, cboTextGenerator.SelectedIndex, txtFilePath.Text, (int)nudFileNameWordCount.Value);
 
                 Application.DoEvents();
                 progressBar.Value = i;
@@ -191,6 +171,41 @@ namespace Test_File_Creator
             swElapsed.Stop();
             txtLog.Text += Environment.NewLine + Environment.NewLine + "Elapsed time: " + swElapsed.Elapsed.ToString();
             btnGenerate.Enabled = true;
+        }
+
+        private void SaveSettings()
+        {
+            Properties.Settings.Default["FileCount"] = (int)nudFileCount.Value;
+            Properties.Settings.Default["FileSizeMin"] = (long)nudFileSizeMin.Value;
+            Properties.Settings.Default["FileSizeMax"] = (long)nudFileSizeMax.Value;
+            Properties.Settings.Default["FilenameWordCount"] = (int)nudFileNameWordCount.Value;
+            Properties.Settings.Default["FilePath"] = txtFilePath.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void BrowseForFilePath()
+        {
+            folderBrowserDialog.InitialDirectory = txtFilePath.Text;
+
+            DialogResult drFolder = folderBrowserDialog.ShowDialog(this);
+            if (drFolder == DialogResult.OK)
+            {
+                txtFilePath.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        #endregion
+
+        #region Form Events
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            BrowseForFilePath();
+        }
+
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            GenerateFiles();
         }
 
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
@@ -236,6 +251,5 @@ namespace Test_File_Creator
         }
 
         #endregion
-
     }
 }
