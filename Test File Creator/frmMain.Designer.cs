@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             pnlMain = new Panel();
+            lblElapsed = new Label();
             cboTextGenerator = new ComboBox();
             lblTextGenerator = new Label();
             progressBar = new ProgressBar();
@@ -55,6 +57,7 @@
             toolstrip_File_Exit = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             toolstrip_Help_About = new ToolStripMenuItem();
+            timerElapsed = new System.Windows.Forms.Timer(components);
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudFileNameWordCount).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFileSizeMax).BeginInit();
@@ -66,6 +69,7 @@
             // pnlMain
             // 
             pnlMain.BorderStyle = BorderStyle.FixedSingle;
+            pnlMain.Controls.Add(lblElapsed);
             pnlMain.Controls.Add(cboTextGenerator);
             pnlMain.Controls.Add(lblTextGenerator);
             pnlMain.Controls.Add(progressBar);
@@ -90,6 +94,15 @@
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(776, 411);
             pnlMain.TabIndex = 0;
+            // 
+            // lblElapsed
+            // 
+            lblElapsed.AutoSize = true;
+            lblElapsed.Location = new Point(240, 48);
+            lblElapsed.Name = "lblElapsed";
+            lblElapsed.Size = new Size(82, 15);
+            lblElapsed.TabIndex = 24;
+            lblElapsed.Text = "Elapsed Time: ";
             // 
             // cboTextGenerator
             // 
@@ -323,6 +336,10 @@
             toolstrip_Help_About.Text = "&About...";
             toolstrip_Help_About.Click += toolstrip_Help_About_Click;
             // 
+            // timerElapsed
+            // 
+            timerElapsed.Tick += timerElapsed_Tick;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -330,6 +347,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(pnlMain);
             Controls.Add(menuStrip);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip;
             MaximizeBox = false;
             Name = "frmMain";
@@ -403,5 +421,7 @@
         private ProgressBar progressBar;
         private ComboBox cboTextGenerator;
         private Label lblTextGenerator;
+        private System.Windows.Forms.Timer timerElapsed;
+        private Label lblElapsed;
     }
 }

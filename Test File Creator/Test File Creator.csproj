@@ -8,11 +8,15 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Copyright>Brad Fettes</Copyright>
-    <Description>A simple program to generate test files with lorem ipsum text for content.</Description>
+    <Description>A simple program to generate test files with lorem ipsum text for content.
+
+Get the latest version at:
+https://github.com/fettesps/TestFileCreator</Description>
     <RepositoryUrl>https://github.com/fettesps/TestFileCreator</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
+    <AssemblyVersion>1.0.0.3</AssemblyVersion>
+    <FileVersion>1.0.0.3</FileVersion>
+    <PackageProjectUrl>https://github.com/fettesps/TestFileCreator</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
