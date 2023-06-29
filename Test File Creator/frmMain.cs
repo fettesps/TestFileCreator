@@ -79,7 +79,7 @@ namespace Test_File_Creator
             StringBuilder sbFileName = new StringBuilder();
             string newWord = String.Empty;
 
-            if(intFileNameWordCount > 50) throw new ArgumentOutOfRangeException("intFileNameWordCount");
+            if (intFileNameWordCount > 50) throw new ArgumentOutOfRangeException("intFileNameWordCount");
 
             switch (intTextGenerator)
             {

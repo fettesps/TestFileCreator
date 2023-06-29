@@ -106,6 +106,7 @@
             // 
             // cboTextGenerator
             // 
+            cboTextGenerator.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTextGenerator.FormattingEnabled = true;
             cboTextGenerator.Items.AddRange(new object[] { "LipsumGenerator", "Faker.net" });
             cboTextGenerator.Location = new Point(325, 14);
@@ -212,6 +213,7 @@
             // 
             // cboFileSizeMax
             // 
+            cboFileSizeMax.DropDownStyle = ComboBoxStyle.DropDownList;
             cboFileSizeMax.Enabled = false;
             cboFileSizeMax.FormattingEnabled = true;
             cboFileSizeMax.Items.AddRange(new object[] { "Bytes", "Kilobytes", "Megabytes", "Gigabytes" });
@@ -233,6 +235,7 @@
             // 
             // cboFileSizeMin
             // 
+            cboFileSizeMin.DropDownStyle = ComboBoxStyle.DropDownList;
             cboFileSizeMin.Enabled = false;
             cboFileSizeMin.FormattingEnabled = true;
             cboFileSizeMin.Items.AddRange(new object[] { "Bytes", "Kilobytes", "Megabytes", "Gigabytes" });
