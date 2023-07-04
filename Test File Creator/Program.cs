@@ -1,3 +1,5 @@
+using System.IO.Abstractions;
+
 namespace Test_File_Creator
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace Test_File_Creator
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new frmMain());
+            Application.Run(new frmMain(new FileSystem()));
         }
     }
 }
