@@ -14,14 +14,15 @@ Get the latest version at:
 https://github.com/fettesps/TestFileCreator</Description>
     <RepositoryUrl>https://github.com/fettesps/TestFileCreator</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <FileVersion>1.0.0.3</FileVersion>
+    <AssemblyVersion>1.0.0.4</AssemblyVersion>
+    <FileVersion>1.0.0.4</FileVersion>
     <PackageProjectUrl>https://github.com/fettesps/TestFileCreator</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Faker.Net" Version="2.0.154" />
     <PackageReference Include="JGP.NLipsum" Version="1.0.2" />
+    <PackageReference Include="System.IO.Abstractions" Version="19.2.29" />
   </ItemGroup>
 
   <ItemGroup>

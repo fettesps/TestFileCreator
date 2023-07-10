@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using Test_File_Creator;
 
 namespace Test_File_Creator.Tests
@@ -9,12 +11,31 @@ namespace Test_File_Creator.Tests
     public class frmMain_Tests
     {
         [TestMethod()]
-        public void GenerateFiles_Test()
+        public void GenerateFile_Create5Files()
         {
             // Arrange
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {@"c:\Source\Test File Creator Output\", new MockFileData("Lorem ipsum")},
+                {@"c:\Source\Test File Creator Output\test.txt", new MockFileData("Test File Creator Output")}
+            });
+
+            frmMain frm = new frmMain(mockFileSystem);
+            int intFilesCreated = 0;
+            int intFilesToCreate = 5;
+            string strPath = "C:\\Source\\Test File Creator Output";            
+
             // Act
+            for (int i = 0; i < intFilesToCreate; i++)
+            {
+                string strFileName = frm.GenerateFileName(0, 5);
+                frm.GenerateFile(ref intFilesCreated, ref strFileName, 0, strPath);
+
+                Assert.IsTrue(mockFileSystem.FileExists(@strPath + "\\" + strFileName));
+            }
+
             // Assert
-            Assert.Fail();
+            Assert.IsTrue(intFilesCreated == intFilesToCreate);
         }
 
         [TestMethod()]
@@ -23,7 +44,8 @@ namespace Test_File_Creator.Tests
         public void GenerateFileName_Test(int intTextGenerator, int intFileNameWordCount)
         {
             // Arrange
-            frmMain frm = new frmMain();
+            var mockFileSystem = new MockFileSystem();
+            frmMain frm = new frmMain(mockFileSystem);
 
             // Act
             String strFilename = frm.GenerateFileName(intTextGenerator, intFileNameWordCount);
@@ -39,7 +61,8 @@ namespace Test_File_Creator.Tests
         public void GenerateFileName_InvalidGenerator_Test(int intTextGenerator, int intFileNameWordCount)
         {
             // Arrange
-            frmMain frm = new frmMain();
+            var mockFileSystem = new MockFileSystem();
+            frmMain frm = new frmMain(mockFileSystem);
 
             // Act
             String strFilename = frm.GenerateFileName(intTextGenerator, intFileNameWordCount);
@@ -54,7 +77,8 @@ namespace Test_File_Creator.Tests
         public void GenerateFileContents_Test(int intTextGenerator)
         {
             // Arrange
-            frmMain frm = new frmMain();
+            var mockFileSystem = new MockFileSystem();
+            frmMain frm = new frmMain(mockFileSystem);
 
             // Act
             List<string> lstContents = frm.GenerateFileContents(intTextGenerator);
@@ -70,7 +94,8 @@ namespace Test_File_Creator.Tests
         public void GenerateFileContents_InvalidGenerator_Test(int intTextGenerator)
         {
             // Arrange
-            frmMain frm = new frmMain();
+            var mockFileSystem = new MockFileSystem();
+            frmMain frm = new frmMain(mockFileSystem);
 
             // Act
             List<string> strFilename = frm.GenerateFileContents(intTextGenerator);

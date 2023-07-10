@@ -1,8 +1,10 @@
 using NLipsum.Core.Features;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.IO.Abstractions;
 
 namespace Test_File_Creator
 {
@@ -11,10 +13,13 @@ namespace Test_File_Creator
         #region Initialization
 
         Stopwatch swElapsed = new Stopwatch();
+        IFileSystem _fs;
 
-        public frmMain()
+        public frmMain(IFileSystem fileSystem)
         {
             InitializeComponent();
+            if (fileSystem != null) _fs = fileSystem;
+            else _fs = new FileSystem();
 
             // Defaults
             lblElapsed.Text = String.Empty;
@@ -36,16 +41,15 @@ namespace Test_File_Creator
 
         #region Methods
 
-        public void GenerateFile(ref int intFilesCreated, int intTextGenerator, string strPath, int intFileNameWordCount)
+        public void GenerateFile(ref int intFilesCreated, ref string strFileName, int intTextGenerator, string strPath)
         {
             try
             {
-                string strFileName = GenerateFileName(intTextGenerator, intFileNameWordCount);
                 string strFileNameAndPath = strPath + "\\" + strFileName;
 
                 if (!File.Exists(strFileNameAndPath))
                 {
-                    using (FileStream fs = File.Create(strFileNameAndPath))
+                    using (Stream fs = _fs.File.Create(strFileNameAndPath))
                     {
                         // Todo: Figure out a better way to predict how many paragraphs we need
                         //      10 = roughly 7kb
@@ -54,7 +58,7 @@ namespace Test_File_Creator
 
                         byte[] info = new UTF8Encoding(true).GetBytes(String.Join(Environment.NewLine, strFileContents));
 
-                        fs.Write(info, 0, info.Length);
+                        fs.Write(info, 0, info.Length);                        
 
                         txtLog.Text += Environment.NewLine + "Created file '" + strFileName + "' with " + info.Length + " bytes";
 
@@ -79,7 +83,7 @@ namespace Test_File_Creator
             StringBuilder sbFileName = new StringBuilder();
             string newWord = String.Empty;
 
-            if(intFileNameWordCount > 50) throw new ArgumentOutOfRangeException("intFileNameWordCount");
+            if (intFileNameWordCount > 50) throw new ArgumentOutOfRangeException("intFileNameWordCount");
 
             switch (intTextGenerator)
             {
@@ -146,9 +150,8 @@ namespace Test_File_Creator
             return strContents;
         }
 
-        public void GenerateFiles()
+        public void GenerateFiles(ref int intFilesCreated)
         {
-            int intFilesCreated = 0;
             swElapsed.Start();
             timerElapsed.Start();
             progressBar.Minimum = 0;
@@ -158,8 +161,8 @@ namespace Test_File_Creator
             txtLog.Text = "Starting to generate " + nudFileCount.Value + " files at " + txtFilePath.Text + Environment.NewLine;
             for (int i = 0; i < nudFileCount.Value; i++)
             {
-                // Todo: Breakout filename generation, content creation, and file creation into separate methods
-                GenerateFile(ref intFilesCreated, cboTextGenerator.SelectedIndex, txtFilePath.Text, (int)nudFileNameWordCount.Value);
+                string strFileName = GenerateFileName(cboTextGenerator.SelectedIndex, (int)nudFileNameWordCount.Value);
+                GenerateFile(ref intFilesCreated, ref strFileName, cboTextGenerator.SelectedIndex, txtFilePath.Text);
 
                 Application.DoEvents();
                 progressBar.Value = i;
@@ -198,16 +201,16 @@ namespace Test_File_Creator
 
         #region Form Events
 
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            int intFilesCreated = 0;
+            GenerateFiles(ref intFilesCreated);
+        }
+
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             BrowseForFilePath();
         }
-
-        private void btnGenerate_Click(object sender, EventArgs e)
-        {
-            GenerateFiles();
-        }
-
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
         {
             SaveSettings();

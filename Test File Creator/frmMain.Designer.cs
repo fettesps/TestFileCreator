@@ -106,6 +106,7 @@
             // 
             // cboTextGenerator
             // 
+            cboTextGenerator.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTextGenerator.FormattingEnabled = true;
             cboTextGenerator.Items.AddRange(new object[] { "LipsumGenerator", "Faker.net" });
             cboTextGenerator.Location = new Point(325, 14);
@@ -212,6 +213,7 @@
             // 
             // cboFileSizeMax
             // 
+            cboFileSizeMax.DropDownStyle = ComboBoxStyle.DropDownList;
             cboFileSizeMax.Enabled = false;
             cboFileSizeMax.FormattingEnabled = true;
             cboFileSizeMax.Items.AddRange(new object[] { "Bytes", "Kilobytes", "Megabytes", "Gigabytes" });
@@ -233,6 +235,7 @@
             // 
             // cboFileSizeMin
             // 
+            cboFileSizeMin.DropDownStyle = ComboBoxStyle.DropDownList;
             cboFileSizeMin.Enabled = false;
             cboFileSizeMin.FormattingEnabled = true;
             cboFileSizeMin.Items.AddRange(new object[] { "Bytes", "Kilobytes", "Megabytes", "Gigabytes" });
@@ -385,33 +388,7 @@
         private Label lblFileNameWordCount;
         private MenuStrip menuStrip;
         private ToolStripMenuItem fileToolStripMenuItem;
-        private ToolStripMenuItem newToolStripMenuItem;
-        private ToolStripMenuItem openToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator;
-        private ToolStripMenuItem saveToolStripMenuItem;
-        private ToolStripMenuItem saveAsToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem printToolStripMenuItem;
-        private ToolStripMenuItem printPreviewToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem exitToolStripMenuItem;
-        private ToolStripMenuItem editToolStripMenuItem;
-        private ToolStripMenuItem undoToolStripMenuItem;
-        private ToolStripMenuItem redoToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem cutToolStripMenuItem;
-        private ToolStripMenuItem copyToolStripMenuItem;
-        private ToolStripMenuItem pasteToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator4;
-        private ToolStripMenuItem selectAllToolStripMenuItem;
-        private ToolStripMenuItem toolsToolStripMenuItem;
-        private ToolStripMenuItem customizeToolStripMenuItem;
-        private ToolStripMenuItem optionsToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
-        private ToolStripMenuItem contentsToolStripMenuItem;
-        private ToolStripMenuItem indexToolStripMenuItem;
-        private ToolStripMenuItem searchToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator5;
         private ToolStripMenuItem toolstrip_Help_About;
         private ToolStripMenuItem toolstrip_File_Exit;
         private Button btnClearLog;
