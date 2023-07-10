@@ -41,7 +41,7 @@ namespace Test_File_Creator
 
         #region Methods
 
-        public void CreateFile(ref int intFilesCreated, ref string strFileName, int intTextGenerator, string strPath)
+        public void GenerateFile(ref int intFilesCreated, ref string strFileName, int intTextGenerator, string strPath)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace Test_File_Creator
             return strContents;
         }
 
-        public void CreateFiles(ref int intFilesCreated)
+        public void GenerateFiles(ref int intFilesCreated)
         {
             swElapsed.Start();
             timerElapsed.Start();
@@ -162,7 +162,7 @@ namespace Test_File_Creator
             for (int i = 0; i < nudFileCount.Value; i++)
             {
                 string strFileName = GenerateFileName(cboTextGenerator.SelectedIndex, (int)nudFileNameWordCount.Value);
-                CreateFile(ref intFilesCreated, ref strFileName, cboTextGenerator.SelectedIndex, txtFilePath.Text);
+                GenerateFile(ref intFilesCreated, ref strFileName, cboTextGenerator.SelectedIndex, txtFilePath.Text);
 
                 Application.DoEvents();
                 progressBar.Value = i;
@@ -205,7 +205,7 @@ namespace Test_File_Creator
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             int intFilesCreated = 0;
-            CreateFiles(ref intFilesCreated);
+            GenerateFiles(ref intFilesCreated);
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
