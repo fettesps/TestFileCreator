@@ -201,7 +201,6 @@ namespace Test_File_Creator
 
         #region Form Events
 
-
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             int intFilesCreated = 0;
