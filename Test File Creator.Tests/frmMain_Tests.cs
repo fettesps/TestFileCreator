@@ -11,7 +11,7 @@ namespace Test_File_Creator.Tests
     public class frmMain_Tests
     {
         [TestMethod()]
-        public void GenerateFiles_Create5Files()
+        public void GenerateFile_Create5Files()
         {
             // Arrange
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>

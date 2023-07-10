@@ -1,5 +1,6 @@
 using NLipsum.Core.Features;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -149,9 +150,8 @@ namespace Test_File_Creator
             return strContents;
         }
 
-        public void GenerateFiles()
+        public void GenerateFiles(ref int intFilesCreated)
         {
-            int intFilesCreated = 0;
             swElapsed.Start();
             timerElapsed.Start();
             progressBar.Minimum = 0;
@@ -201,16 +201,16 @@ namespace Test_File_Creator
 
         #region Form Events
 
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            int intFilesCreated = 0;
+            GenerateFiles(ref intFilesCreated);
+        }
+
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             BrowseForFilePath();
         }
-
-        private void btnGenerate_Click(object sender, EventArgs e)
-        {
-            GenerateFiles();
-        }
-
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
         {
             SaveSettings();
