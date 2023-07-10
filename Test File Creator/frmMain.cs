@@ -41,7 +41,7 @@ namespace Test_File_Creator
 
         #region Methods
 
-        public void GenerateFile(ref int intFilesCreated, ref string strFileName, int intTextGenerator, string strPath)
+        public void CreateFile(ref int intFilesCreated, ref string strFileName, int intTextGenerator, string strPath)
         {
             try
             {
@@ -150,9 +150,8 @@ namespace Test_File_Creator
             return strContents;
         }
 
-        public void GenerateFiles()
+        public void CreateFiles(ref int intFilesCreated)
         {
-            int intFilesCreated = 0;
             swElapsed.Start();
             timerElapsed.Start();
             progressBar.Minimum = 0;
@@ -163,7 +162,7 @@ namespace Test_File_Creator
             for (int i = 0; i < nudFileCount.Value; i++)
             {
                 string strFileName = GenerateFileName(cboTextGenerator.SelectedIndex, (int)nudFileNameWordCount.Value);
-                GenerateFile(ref intFilesCreated, ref strFileName, cboTextGenerator.SelectedIndex, txtFilePath.Text);
+                CreateFile(ref intFilesCreated, ref strFileName, cboTextGenerator.SelectedIndex, txtFilePath.Text);
 
                 Application.DoEvents();
                 progressBar.Value = i;
@@ -198,28 +197,21 @@ namespace Test_File_Creator
             }
         }
 
+        #endregion
+
+        #region Form Events
+
+
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             int intFilesCreated = 0;
-            swElapsed.Start();
-            timerElapsed.Start();
-            progressBar.Minimum = 0;
-            progressBar.Maximum = (int)nudFileCount.Value;
-
-        #region Form Events
+            CreateFiles(ref intFilesCreated);
+        }
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             BrowseForFilePath();
         }
-
-            txtLog.Text += Environment.NewLine + Environment.NewLine + intFilesCreated + " Files Created!";
-            timerElapsed.Stop();
-            swElapsed.Stop();
-            txtLog.Text += Environment.NewLine + Environment.NewLine + "Elapsed time: " + swElapsed.Elapsed.ToString();
-            btnGenerate.Enabled = true;
-        }
-
         private void toolstrip_File_Exit_Click(object sender, EventArgs e)
         {
             SaveSettings();
@@ -262,19 +254,6 @@ namespace Test_File_Creator
             }
         }
 
-        private void timerElapsed_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                lblElapsed.Text = "Elapsed Time: " + swElapsed.Elapsed.ToString();
-            }
-            catch (Exception ex)
-            {
-                txtLog.Text += Environment.NewLine + "Error in timerElapsed_Tick. " + ex.ToString();
-            }
-        }
-
         #endregion
-
     }
 }
